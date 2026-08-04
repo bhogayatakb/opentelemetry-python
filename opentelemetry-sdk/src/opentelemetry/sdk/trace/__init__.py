@@ -55,6 +55,9 @@ from opentelemetry.sdk.resources import (
     _get_process_dependent_resource,
 )
 from opentelemetry.sdk.trace import sampling
+from opentelemetry.sdk.trace._mw_exception_context import (  # mw: fork-only exception source capture
+    get_exception_source_attributes,
+)
 from opentelemetry.sdk.trace._tracer_metrics import create_tracer_metrics
 from opentelemetry.sdk.trace.id_generator import IdGenerator, RandomIdGenerator
 from opentelemetry.sdk.util import BoundedList
@@ -1083,6 +1086,8 @@ class Span(trace_api.Span, ReadableSpan):
             EXCEPTION_STACKTRACE: stacktrace,
             EXCEPTION_ESCAPED: str(escaped),
         }
+        # mw: fork-only addition, opt-in via MW_RECORD_EXCEPTION_SOURCE
+        _attributes.update(get_exception_source_attributes(exception))
         if attributes:
             _attributes.update(attributes)
         self.add_event(
