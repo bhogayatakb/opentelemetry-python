@@ -78,6 +78,8 @@ process = "opentelemetry.sdk.resources:ProcessResourceDetector"
 os = "opentelemetry.sdk.resources:OsResourceDetector"
 host = "opentelemetry.sdk.resources:_HostResourceDetector"
 service_instance = "opentelemetry.sdk.resources:ServiceInstanceIdResourceDetector"
+# mw: fork-only, opt-in via OTEL_EXPERIMENTAL_RESOURCE_DETECTORS=vcs
+vcs = "opentelemetry.sdk.resources._mw_vcs:VcsResourceDetector"
 
 [project.urls]
 Homepage = "https://github.com/open-telemetry/opentelemetry-python/tree/main/opentelemetry-sdk"
